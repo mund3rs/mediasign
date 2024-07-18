@@ -1,0 +1,12 @@
+{% extends 'mediaapp/base.html' %}
+
+{% block content %}
+<h2>Playlist: {{ playlist.name }}</h2>
+<ul>
+    {% for item in items %}
+        <li>{{ item.media.title }} ({{ item.transition_time }} seconds)</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'add_to_playlist' playlist.id %}" class="btn btn-primary">Add more media</a>
+<a href="{% url 'delete_playlist' playlist.id %}" class="btn btn-danger">Delete Playlist</a>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'mediaapp/base.html' %}
+
+{% load static %}
+{% load media_filters %}
+
+{% block content %}
+<h2>Media List</h2>
+<div class="row">
+    {% for media in media_files %}
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                {% if media.file.url|is_video %}
+                    {% if media.thumbnail %}
+                        <img src="{{ media.thumbnail.url }}" class="card-img-top" alt="{{ media.title }}">
+                    {% else %}
+                        <img src="{% static 'mediaapp/img/default_video_thumbnail.png' %}" class="card-img-top" alt="{{ media.title }}">
+                    {% endif %}
+                {% elif media.file.url|is_image %}
+                    <img src="{{ media.file.url }}" class="card-img-top" alt="{{ media.title }}">
+                {% else %}
+                    <img src="{% static 'mediaapp/img/default_file_thumbnail.png' %}" class="card-img-top" alt="{{ media.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ media.title }}</h5>
+                    <p class="card-text">
+                        Type: {{ media.file.url|media_type }}<br>
+                        File Type: {{ media.file.url|file_extension }}
+                    </p>
+                    <a href="{{ media.file.url }}" class="btn btn-primary">View</a>
+                    <a href="{% url 'delete_media' media.id %}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<a href="{% url 'upload_media' %}" class="btn btn-primary">Upload more media</a>
+{% endblock %}

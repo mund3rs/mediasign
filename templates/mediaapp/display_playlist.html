@@ -1,0 +1,77 @@
+{% extends 'mediaapp/base.html' %}
+
+{% load static %}
+{% load media_filters %}
+
+{% block header %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block content %}
+<div class="full-screen-container">
+    {% for item in items %}
+        <div class="media-item" data-transition="{{ item.transition_time }}" data-effect="{{ item.transition_effect }}" data-fade-duration="{{ item.fade_duration }}" style="display: none;">
+            <h3 class="text-white">{{ item.media.title }}</h3>
+            {% if item.media.file.url|is_video %}
+                <video controls>
+                    <source src="{{ item.media.file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% elif item.media.file.url|is_image %}
+                <img src="{{ item.media.file.url }}" alt="{{ item.media.title }}">
+            {% else %}
+                <p class="text-white">Unsupported media type: {{ item.media.file.url|file_extension }}</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let items = document.querySelectorAll('.media-item');
+        let index = 0;
+
+        function showItem() {
+            items.forEach((item, idx) => {
+                item.style.display = 'none';
+            });
+
+            let currentItem = items[index];
+            let effect = currentItem.getAttribute('data-effect');
+            let fadeDuration = currentItem.getAttribute('data-fade-duration') * 250;
+            currentItem.style.display = 'block';
+
+            if (effect === 'fade') {
+                currentItem.style.opacity = 0;
+                let fadeEffect = setInterval(function () {
+                    if (!currentItem.style.opacity) {
+                        currentItem.style.opacity = 0;
+                    }
+                    if (currentItem.style.opacity < 1) {
+                        currentItem.style.opacity = parseFloat(currentItem.style.opacity) + 0.1;
+                    } else {
+                        clearInterval(fadeEffect);
+                    }
+                }, fadeDuration / 10);
+            }
+
+            let transitionTime = currentItem.getAttribute('data-transition') * 1000;
+            if (currentItem.querySelector('video')) {
+                let video = currentItem.querySelector('video');
+                video.onended = function () {
+                    index = (index + 1) % items.length;
+                    setTimeout(showItem, transitionTime);
+                };
+                video.play();
+            } else {
+                index = (index + 1) % items.length;
+                setTimeout(showItem, transitionTime);
+            }
+        }
+
+        showItem();
+    });
+</script>
+{% endblock %}

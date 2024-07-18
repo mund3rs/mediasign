@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signage</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Basic styling for sticky footer */
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1;
+        }
+        .footer {
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    {% block header %}
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'home' %}">Signage App</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'media_list' %}">Media List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'upload_media' %}">Upload Media</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'playlist_list' %}">Playlists</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'create_playlist' %}">Create Playlist</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {% endblock %}
+
+    <div class="container content my-5">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block footer %}
+    <footer class="bg-light text-center py-3 footer">
+        <p>&copy; 2024 Signage App</p>
+    </footer>
+    {% endblock %}
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

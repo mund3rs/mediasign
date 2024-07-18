@@ -1,0 +1,29 @@
+{% extends 'mediaapp/base.html' %}
+
+{% block content %}
+<h2>Welcome to the Signage App</h2><br>
+<a href="{% url 'media_list' %}" class="btn btn-primary">View Media</a>
+<a href="{% url 'playlist_list' %}" class="btn btn-secondary">View Playlists</a>
+<a href="{% url 'upload_media' %}" class="btn btn-success">Upload Media</a>
+    <br><br>
+    <hr>
+    <br>
+{% if playlists %}
+    <h3>Playlists</h3>
+    <ul>
+        {% for playlist in playlists %}
+            <li>
+                <a href="{% url 'playlist_detail' playlist.id %}">{{ playlist.name }}</a>
+                {% if playlist.is_default %}
+                    <span class="badge badge-success">Default</span>
+                    <a href="{% url 'display_default_playlist' %}" target="_blank" class="btn btn-info btn-sm">View Default</a>
+                {% else %}
+                    <a href="{% url 'set_default_playlist' playlist.id %}" class="btn btn-secondary btn-sm">Set as Default</a>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <h3>There are currently no playlists</h3>
+{% endif %}
+{% endblock %}

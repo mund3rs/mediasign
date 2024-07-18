@@ -1,0 +1,19 @@
+{% extends 'mediaapp/base.html' %}
+
+{% block content %}
+<h2>Playlists</h2>
+<ul>
+    {% for playlist in playlists %}
+        <li>
+            <a href="{% url 'playlist_detail' playlist.id %}">{{ playlist.name }}</a>
+            {% if playlist.is_default %}
+                <span class="badge badge-success">Default</span>
+                <a href="{% url 'display_default_playlist' %}" target="_blank" class="btn btn-info btn-sm">View Default</a>
+            {% else %}
+                <a href="{% url 'set_default_playlist' playlist.id %}" class="btn btn-secondary btn-sm">Set as Default</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+<a href="{% url 'create_playlist' %}" class="btn btn-primary">Create a new playlist</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'mediaapp/base.html' %}
+
+{% block content %}
+<h2>Delete Media</h2>
+<p>Are you sure you want to delete the media "{{ media.title }}"?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{% url 'media_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
